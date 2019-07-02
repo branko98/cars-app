@@ -7,9 +7,8 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="/cars">Cars</a>
-          </li>
+          <li class="nav-item"><a class="nav-link" href="/cars">Cars</a></li>
+          <li class="nav-item"><a class="nav-link" href="/add">Add</a></li>
         </ul>
       </div>
     </nav>
