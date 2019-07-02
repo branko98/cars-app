@@ -1,8 +1,8 @@
 <template>
     <div>
         <form @submit.prevent="handleAdd">
-            <input type="text" id="brand" placeholder="Brand" v-model="newCar.brand" ><br>
-            <input type="text" id="model" placeholder="Model" v-model="newCar.model" ><br>
+            <input type="text" id="brand" placeholder="Brand" v-model="newCar.brand"  minlength="2"><br>
+            <input type="text" id="model" placeholder="Model" v-model="newCar.model"  minlength="2"><br>
             <select id="year" v-model="newCar.year" >
                 <option value="2018">2018</option>
                 <option value="2017">2017</option>
@@ -36,27 +36,33 @@
             </select><br>
             <input type="number" id="maxSpeed" placeholder="Max speed" v-model="newCar.maxSpeed" ><br>
             <input type="checkbox" id="isAutomatic" v-model="newCar.isAutomatic" >Is automatic<br>
-            <input type="radio" name="engine"  value="Diesel" v-model="newCar.engine">Diesel<br>
-            <input type="radio" name="engine" value="Petrol" v-model="newCar.isAutomatic">Petrol<br>
-            <input type="radio" name="engine" value="Electric" v-model="newCar.isAutomatic">Electric<br>  
-            <input type="radio" name="engine" value="Hybrid" v-model="newCar.isAutomatic">Hybrid<br>  
+            <input type="radio" name="engine"  value="Diesel" v-model="newCar.engine" >Diesel<br>
+            <input type="radio" name="engine" value="Petrol" v-model="newCar.engine" >Petrol<br>
+            <input type="radio" name="engine" value="Electric" v-model="newCar.engine" >Electric<br>  
+            <input type="radio" name="engine" value="Hybrid" v-model="newCar.engine" >Hybrid<br>  
             <input type="number" id="numberOfDoors" placeholder="Number of doors" v-model="newCar.numberOfDoors" ><br>
             <button class="btn btn-primary" type="submit">Add car</button>
+            <button class="btn btn-light" @click="preview()" >Preview</button>
+            <button class="btn btn-light" type="reset">Reset</button>
         </form>
     </div>
 </template>
 
 <script>
 import { carsService } from '../services/cars'
+import { createCipher } from 'crypto';
 export default {
     data () {
         return {
+            id: this.$router.currentRoute.params.id,
+            errors: [],
+
             newCar: {
-                brand: '',
-                model: '',
+                brand: undefined,
+                model: undefined,
                 year: undefined,
                 maxSpeed: undefined,
-                isAutomatic: false,
+                isAutomatic: undefined,
                 engine: undefined,
                 numberOfDoors: undefined,
             }
@@ -64,10 +70,34 @@ export default {
         }
     },
 
+    created() {
+        if(this.$router.currentRoute.params.id){
+            this.id = this.$router.currentRoute.params.id
+
+            carsService.getCar(this.id)
+            .then(response => {
+                this.newCar = response.data;
+            }) .catch(e => {
+                this.errors.push(e)
+            })
+        }     
+    },
+
     methods: {
         handleAdd(){
-            carsService.addCar(this.newCar)
-            this.$router.push('/cars')
+            if(this.id){
+                console.log(this.newCar)
+                carsService.editCar(this.newCar, this.id)
+                this.$router.push('/cars')
+            } else{
+                carsService.addCar(this.newCar)
+                this.$router.push('/cars')
+            }
+            
+        },
+
+        preview(){
+            alert(JSON.stringify(this.newCar))
         }
     }
 

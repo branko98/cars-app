@@ -18,6 +18,7 @@
                 <td>{{ car.isAutomatic }}</td> 
                 <td>{{ car.engine }}</td> 
                 <td>{{ car.numberOfDoors }}</td> 
+            <button class="btn btn-primary" @click="edit(car.id)">Edit</button>
             </tr>
         </table>
     </div>
@@ -41,6 +42,12 @@ export default {
             this.errors.push(e)
         })
     },
+
+    methods:{
+        edit(id){
+            this.$router.push(`/edit/${id}`)
+        }
+    }
 }
 </script>
 
