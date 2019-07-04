@@ -18,7 +18,8 @@
                 <td>{{ car.isAutomatic }}</td> 
                 <td>{{ car.engine }}</td> 
                 <td>{{ car.numberOfDoors }}</td> 
-            <button class="btn btn-primary" @click="edit(car.id)">Edit</button>
+                <td><button class="btn btn-primary" @click="edit(car.id)">Edit</button></td>
+                <td><button class="btn btn-primary" @click="handleDelete(car.id)">Delete</button></td>
             </tr>
         </table>
     </div>
@@ -46,6 +47,13 @@ export default {
     methods:{
         edit(id){
             this.$router.push(`/edit/${id}`)
+        },
+
+        handleDelete(id){
+            carsService.deleteCar(id)
+                .then(() => {
+                    this.cars = this.cars.filter(car => car.id !== id);
+                })
         }
     }
 }
