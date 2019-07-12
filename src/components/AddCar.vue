@@ -86,14 +86,12 @@ export default {
     methods: {
         handleAdd(){
             if(this.id){
-                console.log(this.newCar)
                 carsService.editCar(this.newCar, this.id)
                 this.$router.push('/cars')
             } else{
                 carsService.addCar(this.newCar)
                 this.$router.push('/cars')
             }
-            
         },
 
         preview(){

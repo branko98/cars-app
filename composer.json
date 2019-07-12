@@ -1,0 +1,6 @@
+{
+    "require": {
+        "barryvdh/laravel-cors": "^0.11.3",
+        "tymon/jwt-auth": "dev-develop"
+    }
+}

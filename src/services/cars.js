@@ -1,8 +1,8 @@
-import axios from 'axios'; 
+import axios from 'axios';
 
 export default class CarsService {
     constructor() {
-        axios.defaults.baseURL = 'http://localhost:3000/api/'
+        axios.defaults.baseURL = 'http://localhost:8000/api/'
     }
 
     getCars() {
@@ -10,18 +10,18 @@ export default class CarsService {
     }
 
     addCar(car) {
-        return axios.post('cars',car)
+        return axios.post('cars', car)
     }
-    
-    getCar(id){
+
+    getCar(id) {
         return axios.get(`/cars/${id}`)
     }
 
-    editCar(car, id){
+    editCar(car, id) {
         return axios.put('/cars/' + id, car)
     }
-    
-    deleteCar(id){
+
+    deleteCar(id) {
         return axios.delete('/cars/' + id);
     }
 }
